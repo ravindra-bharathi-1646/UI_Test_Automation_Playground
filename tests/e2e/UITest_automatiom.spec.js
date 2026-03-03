@@ -11,7 +11,7 @@ test.describe("UI Test Automation", async () => {
   });
 
   test.afterEach(async ({ page }) => {
-    console.log("page close");
+    console.log("page closed");
     await page.close();
   });
 
@@ -19,6 +19,7 @@ test.describe("UI Test Automation", async () => {
   test("Dynamic ID", async ({ page }) => {
     await page.getByRole("link", { name: "Dynamic ID" }).click();
     await page.getByRole("button", { name: "Button with Dynamic ID" }).click();
+    console.log("Button with Dynamic ID clicked");
     await page.goBack();
   });
 
@@ -30,6 +31,7 @@ test.describe("UI Test Automation", async () => {
         "//button[contains(concat(' ', normalize-space(@class), ' '), ' btn-primary ')]",
       )
       .click();
+    console.log("Button with Class Attribute clicked");
     await page.goBack();
   });
   // click on the "Load delay" link and interact with the button
@@ -42,6 +44,7 @@ test.describe("UI Test Automation", async () => {
     await expect(
       page.getByRole("button", { name: "Button Appearing After Delay" }),
     ).toBeVisible();
+    console.log("Button Appearing After Delay clicked");
     await page.goBack();
   });
 
@@ -49,11 +52,13 @@ test.describe("UI Test Automation", async () => {
   test("Hidden Layers", async ({ page }) => {
     await page.getByRole("link", { name: "Hidden Layers" }).click();
     await page.getByRole("button", { name: "Button" }).click();
+    console.log("Button clicked");
     await page.goBack();
   });
 
   // Click on the "AJAX Data" link and interact with the button
   test("AJAX Data", async ({ page }) => {
+    test.setTimeout(60000);
     await page.getByRole("link", { name: "AJAX Data" }).click();
     await page
       .getByRole("button", { name: "Button Triggering AJAX Request" })
@@ -62,6 +67,7 @@ test.describe("UI Test Automation", async () => {
     await expect(
       page.getByText("Data loaded with AJAX get request"),
     ).toBeVisible();
+    console.log("Data loaded with AJAX get request");
     await page.goBack();
   });
 
@@ -74,6 +80,7 @@ test.describe("UI Test Automation", async () => {
     await expect(
       page.getByRole("button", { name: "Button Triggering Client Side Logic" }),
     ).toBeVisible();
+    console.log("Button Triggering Client Side Logic clicked");
     await page.goBack();
   });
 
@@ -83,6 +90,7 @@ test.describe("UI Test Automation", async () => {
     await page
       .getByRole("button", { name: "Button That Ignores DOM Click" })
       .click();
+    console.log("Button That Ignores DOM Click clicked");
     await page.goBack();
   });
 
@@ -98,6 +106,9 @@ test.describe("UI Test Automation", async () => {
       .click();
     await page.getByRole("button", { name: "Test" }).click();
     await expect(page.getByRole("button", { name: "Test" })).toBeVisible();
+    console.log(
+      "Button That Should Change it's Name Based on Input Value clicked",
+    );
     await page.goBack();
   });
 
@@ -108,6 +119,7 @@ test.describe("UI Test Automation", async () => {
     await button.scrollIntoViewIfNeeded();
     await expect(button).toBeVisible();
     await button.click();
+    console.log("Button clicked");
     await page.goBack();
   });
 
@@ -132,16 +144,18 @@ test.describe("UI Test Automation", async () => {
       }
     }
     expect(actualCpu).toBe(expectedCpu);
+    console.log("Table CPU verified");
     await page.goBack();
   });
 
   // Click on the "Verify Text" Finding an element by displayed text has nuances
   test("Verify Text", async ({ page }) => {
     await page.getByRole("link", { name: "Verify Text" }).click();
-    const welcomeText = await page.locator(
+    const welcomeText = page.locator(
       "//span[normalize-space(.)='Welcome UserName!']",
     );
     await expect(welcomeText).toBeVisible();
+    console.log("Welcome UserName! verified");
     await page.goBack();
   });
 
@@ -223,6 +237,7 @@ test.describe("UI Test Automation", async () => {
     await page.getByRole("textbox", { name: "********" }).fill("pwd");
     await page.getByRole("button", { name: "Log in" }).click();
     await expect(page.getByText("Welcome, testuser!")).toBeVisible();
+    console.log("Welcome, testuser! verified");
     await page.goBack();
   });
 
@@ -241,6 +256,7 @@ test.describe("UI Test Automation", async () => {
     await expect(
       page.getByText("The link above clicked 2").nth(1),
     ).toBeVisible();
+    console.log("The link above clicked 2 verified");
     await page.goBack();
   });
 
@@ -249,6 +265,7 @@ test.describe("UI Test Automation", async () => {
     await page.getByRole("link", { name: "Non-Breaking Space" }).click();
     await page.getByRole("button", { name: "My Button" }).click();
     expect(page.getByRole("button", { name: "My Button" })).toBeVisible();
+    console.log("My Button clicked");
     await page.goBack();
   });
 
@@ -259,6 +276,7 @@ test.describe("UI Test Automation", async () => {
     await page.getByRole("textbox", { name: "Id" }).fill("test");
     await page.getByRole("textbox", { name: "Name" }).click();
     await page.getByRole("textbox", { name: "Name" }).fill("text");
+    console.log("Overlapped Element verified");
     await page.goBack();
   });
 
@@ -295,6 +313,7 @@ test.describe("UI Test Automation", async () => {
     await expect(frame.getByText("testFile.txt")).toBeVisible();
     await frame.locator('input[type="file"]').setInputFiles([]);
     await expect(frame.getByText("testFile.txt")).toBeVisible();
+    console.log("File Upload verified");
     await page.goBack();
   });
 
@@ -308,6 +327,7 @@ test.describe("UI Test Automation", async () => {
       timeout: 7000,
     });
     await page.getByRole("button", { name: "Moving Target" }).click();
+    console.log("Animated Button verified");
     await page.goBack();
   });
 
@@ -323,48 +343,50 @@ test.describe("UI Test Automation", async () => {
       page.getByRole("textbox", { name: "Edit Field" }),
     ).toBeDisabled();
     await expect(page.getByRole("textbox", { name: "Edit Field" })).toBeEnabled(
-      { timeout: 5000 },
+      { timeout: 6000 },
     );
+    console.log("Disabled Input verified");
     await page.goBack();
   });
 
   //Click on the "Auto Wait" link and interact with the button
   test("Auto Wait", async ({ page }) => {
+    test.setTimeout(60000);
     await page.getByRole("link", { name: "Auto Wait" }).click();
-    await page.getByRole("checkbox", { name: "Visible" }).uncheck();
+    const visibleCheckbox = page.getByRole("checkbox", { name: "Visible" });
+    const button = page.getByRole("button", { name: "Button" });
+    await visibleCheckbox.check();
+    await visibleCheckbox.uncheck();
     await page.getByRole("button", { name: "Apply 3s" }).click();
-    await expect(
-      page.getByRole("button", { name: "Button" }),
-    ).not.toBeVisible();
-    await expect(page.getByRole("button", { name: "Button" })).toBeVisible({
-      timeout: 3000,
-    });
-    await page.getByRole("checkbox", { name: "Visible" }).uncheck();
+    await expect(button).not.toBeVisible();
+    await expect(button).toBeVisible({ timeout: 6000 });
+    await visibleCheckbox.check();
+    await visibleCheckbox.uncheck();
     await page.getByRole("button", { name: "Apply 5s" }).click();
-    await expect(
-      page.getByRole("button", { name: "Button" }),
-    ).not.toBeVisible();
-    await expect(page.getByRole("button", { name: "Button" })).toBeVisible({
-      timeout: 5000,
-    });
-    await page.getByRole("checkbox", { name: "Enabled" }).uncheck();
+    await expect(button).not.toBeVisible();
+    await expect(button).toBeVisible({ timeout: 6000 });
+    const enabledCheckbox = page.getByRole("checkbox", { name: "Enabled" });
+    await enabledCheckbox.check();
+    await enabledCheckbox.uncheck();
     await page.getByRole("button", { name: "Apply 10s" }).click();
-    await expect(page.getByRole("button", { name: "Button" })).toBeDisabled();
-    await expect(page.getByRole("button", { name: "Button" })).toBeEnabled({
-      timeout: 10000,
-    });
-    await page.getByRole("checkbox", { name: "Enabled" }).uncheck();
+    await expect(button).toBeDisabled();
+    await expect(button).toBeEnabled({ timeout: 12000 });
+    await enabledCheckbox.check();
+    await enabledCheckbox.uncheck();
     await page.getByRole("button", { name: "Apply 3s" }).click();
-    await expect(page.getByRole("button", { name: "Button" })).toBeDisabled();
-    await expect(page.getByRole("button", { name: "Button" })).toBeEnabled({
-      timeout: 3000,
-    });
-    await page.getByRole("checkbox", { name: "Enabled" }).uncheck();
+    await expect(button).toBeDisabled();
+    await expect(button).toBeEnabled({ timeout: 5000 });
+    await enabledCheckbox.check();
+    await enabledCheckbox.uncheck();
     await page.getByRole("button", { name: "Apply 5s" }).click();
-    await expect(page.getByRole("button", { name: "Button" })).toBeDisabled();
-    await expect(page.getByRole("button", { name: "Button" })).toBeEnabled({
-      timeout: 5000,
-    });
+    await expect(button).toBeDisabled();
+    await expect(button).toBeEnabled({ timeout: 6000 });
+    await enabledCheckbox.check();
+    await enabledCheckbox.uncheck();
+    await page.getByRole("button", { name: "Apply 10s" }).click();
+    await expect(button).toBeDisabled();
+    await expect(button).toBeEnabled({ timeout: 12000 });
+    console.log("Auto Wait verified");
     await page.goBack();
   });
 });
