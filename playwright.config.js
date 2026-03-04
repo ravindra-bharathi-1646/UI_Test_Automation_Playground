@@ -16,10 +16,11 @@ export default defineConfig({
   use: {
     viewport: null, // Required for maximized mode
     headless: false,
-    trace: "on-first-retry",
     launchOptions: {
       args: ["--start-maximized"],
     },
+    trace: "on-first-retry",
+    screenshot: "only-on-failure",
   },
 
   projects: [
